@@ -2,6 +2,7 @@ type Model = {
   name: string;
   logo: string;
   info: string;
+  color: string;
 };
 
 type PerformanceResult = {
@@ -10,6 +11,3 @@ type PerformanceResult = {
   output_tokens: number;
   latency_ms: number;
 };
-
-
-

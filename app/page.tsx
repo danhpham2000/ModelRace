@@ -7,51 +7,66 @@ import Cerebras from "@/app/assets/cerebras-color.svg";
 import Groq from "@/app/assets/groq.svg";
 import { Input } from "@/components/ui/input";
 import React, { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { motion } from "framer-motion";
 
 const models: Model[] = [
   {
     name: "OpenAI",
     info: "Quality, speed, stable latency",
     logo: OpenAI,
+    color: "#F55036",
   },
   {
     name: "Groq",
     info: "Extreme token generation speed",
     logo: Groq,
+    color: "#F55036",
   },
   {
     name: "Cerebras",
     info: "Massive throughput, low latency",
     logo: Cerebras,
+    color: "#F15A29",
   },
 ];
 
 export default function Page() {
   const [query, setQuery] = useState<string>("");
-
   const [result, setResult] = useState<PerformanceResult[]>();
 
-  const handleSubmitQuery = async (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleSubmitQuery = async (e: React.FormEvent) => {
     e.preventDefault();
   };
 
   return (
-    <div className="mt-10 p-5">
-      <div>
-        <div className="text-center">
-          <h1 className="text-lg font-medium text-primary">
-            Real-time LLM Latency Benchmarking
-          </h1>
-          <p className="mt-3">
-            Comparison of LLM inference providers showing response quality,
-            input tokens, output tokens, and end-to-end latency.
-          </p>
-        </div>
-      </div>
-      <div className="flex flex-col gap-5 mt-10 md:flex-row md:justify-center">
-        {models.map((model) => (
-          <div key={model.name}>
-            <Card className="p-5 bg-gray-700 mt-5">
+    <div className="mt-5 p-5">
+      <motion.div
+        initial={{ opacity: 0, y: -10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.4 }}
+        className="text-center"
+      >
+        <h1 className="text-lg font-medium text-primary">
+          Real-time LLM Latency Benchmarking
+        </h1>
+        <p className="mt-3">
+          Comparison of LLM inference providers showing response quality, input
+          tokens, output tokens, and end-to-end latency.
+        </p>
+      </motion.div>
+
+      <div className="flex flex-col gap-5 mt-5 md:flex-row md:justify-center">
+        {models.map((model, i) => (
+          <motion.div
+            key={model.name}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: i * 0.15 }}
+            whileHover={{ scale: 1.03 }}
+            whileTap={{ scale: 0.97 }}
+          >
+            <Card className="p-5 bg-gray-700 mt-5 cursor-pointer">
               <div className="flex items-center gap-5 justify-center">
                 <Image
                   src={model.logo}
@@ -65,20 +80,32 @@ export default function Page() {
                 <p>{model.info}</p>
               </div>
             </Card>
-          </div>
+          </motion.div>
         ))}
       </div>
-      <div className="mt-20">
-        <h1 className="text-2xl text-center uppercase font-medium">
-          Playground
-        </h1>
 
-        <div>
+      <motion.div
+        className="mt-10"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 0.4 }}
+      >
+        <h1 className="text-2xl text-center font-medium">Playground</h1>
+
+        <Card className="max-w-100 mx-auto p-5 mt-5">
           <h1>Type your input and track tokens, output, and latency</h1>
 
-          <Input type="text" />
-        </div>
-      </div>
+          <Input
+            type="text"
+            onChange={(e) => setQuery(e.target.value)}
+            placeholder="Query"
+          />
+
+          <motion.div whileTap={{ scale: 0.95 }}>
+            <Button className="mt-3">Submit</Button>
+          </motion.div>
+        </Card>
+      </motion.div>
     </div>
   );
 }
