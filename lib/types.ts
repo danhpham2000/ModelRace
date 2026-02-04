@@ -7,7 +7,8 @@ type Model = {
 
 type PerformanceResult = {
   name: string;
+  model: string;
   input_tokens: number;
   output_tokens: number;
-  latency_ms: number;
+  latency: number;
 };
