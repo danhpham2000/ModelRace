@@ -82,7 +82,7 @@ export default function Page() {
   };
 
   return (
-    <div className="">
+    <div className="mx-10">
       <motion.div
         initial={{ opacity: 0, y: -10 }}
         animate={{ opacity: 1, y: 0 }}
@@ -174,62 +174,63 @@ export default function Page() {
                 </div>
               )}
 
-              {results &&
-                results?.map((r) => (
-                  <div className="mt-5" key={r.model}>
-                    <Card className=" p-4 ml-10">
-                      <div className="flex justify-between mb-2">
-                        <h3 className="font-medium">{r.model}</h3>
-                        <span className="">{r.name}</span>
-                      </div>
-
-                      <Field className="w-full max-w-sm">
-                        <FieldLabel>
-                          <span>Latency (ms)</span>
-                          <span className="ml-auto">
-                            {Math.round(r.latency)}
-                          </span>
-                        </FieldLabel>
-                        <Progress
-                          value={Math.min((r.latency / 10000) * 100, 100)}
-                          className="mb-3"
-                        />
-                      </Field>
-
-                      <div className="grid grid-cols-2 gap-3 text-sm">
-                        <div className="p-2 bg-muted rounded">
-                          <p className="opacity-70">Input tokens</p>
-                          <p className="font-medium">{r.input_tokens}</p>
+              <div className="grid grid-col-1 md:grid-cols-3">
+                {results &&
+                  results?.map((r) => (
+                    <div className="mt-5" key={r.model}>
+                      <Card className=" p-4 ml-10">
+                        <div className="flex justify-between mb-2">
+                          <h3 className="font-medium">{r.name}</h3>
                         </div>
 
-                        <div className="p-2 bg-muted rounded">
-                          <p className="opacity-70">Output tokens</p>
-                          <p className="font-medium">{r.output_tokens}</p>
-                        </div>
-                      </div>
+                        <Field className="w-full max-w-sm">
+                          <FieldLabel>
+                            <span>Latency (ms)</span>
+                            <span className="ml-auto">
+                              {Math.round(r.latency)}
+                            </span>
+                          </FieldLabel>
+                          <Progress
+                            value={Math.min((r.latency / 10000) * 100, 100)}
+                            className="mb-3"
+                          />
+                        </Field>
 
-                      <Dialog>
-                        <DialogTitle>Response</DialogTitle>
-                        <DialogTrigger asChild>
-                          <Button>View response</Button>
-                        </DialogTrigger>
-                        <DialogContent className="max-h-[70vh] overflow-y-auto">
-                          <div className="mt-6 p-2 bg-muted rounded overflow-hidden">
-                            <p className="opacity-70 mb-3 text-primary text-lg">
-                              Response
-                            </p>
-
-                            <div className="prose dark:prose-invert wrap-break-word overflow-x-auto">
-                              <ReactMarkdown>
-                                {(r as any).response}
-                              </ReactMarkdown>
-                            </div>
+                        <div className="grid grid-cols-2 gap-3 text-sm">
+                          <div className="p-2 bg-muted rounded">
+                            <p className="opacity-70">Input tokens</p>
+                            <p className="font-medium">{r.input_tokens}</p>
                           </div>
-                        </DialogContent>
-                      </Dialog>
-                    </Card>
-                  </div>
-                ))}
+
+                          <div className="p-2 bg-muted rounded">
+                            <p className="opacity-70">Output tokens</p>
+                            <p className="font-medium">{r.output_tokens}</p>
+                          </div>
+                        </div>
+
+                        <Dialog>
+                          <DialogTitle>Response</DialogTitle>
+                          <DialogTrigger asChild>
+                            <Button>View response</Button>
+                          </DialogTrigger>
+                          <DialogContent className="max-h-[70vh] overflow-y-auto">
+                            <div className="mt-6 p-2 bg-muted rounded overflow-hidden">
+                              <p className="opacity-70 mb-3 text-primary text-lg">
+                                Response
+                              </p>
+
+                              <div className="prose dark:prose-invert wrap-break-word overflow-x-auto">
+                                <ReactMarkdown>
+                                  {(r as any).response}
+                                </ReactMarkdown>
+                              </div>
+                            </div>
+                          </DialogContent>
+                        </Dialog>
+                      </Card>
+                    </div>
+                  ))}
+              </div>
             </div>
           </TabsContent>
           <TabsContent value="custom">
